@@ -1,0 +1,74 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.ItemManage.CreateModel
+
+<div class="page-section bg-dark text-primary">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <form method="post">
+            <div class="p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">
+                        Create Item
+                    </h2>
+                    <hr/>
+                </div>
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3" >
+                    <label asp-for="Items.Name"></label>
+                    <input asp-for="@Model.Items.Name" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Item Name Here..." />
+                    <span asp-validation-for="Items.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Items.Description"></label>
+                    <textarea asp-for="@Model.Items.Description" class="form-control bg-dark text-white border-primary" rows="3" placeholder="Insert Your Item Description Here..." ></textarea>
+                    <span asp-validation-for="Items.Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Items.Price"></label>
+                    <input asp-for="@Model.Items.Price" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Item Price Here..." />
+                    <span asp-validation-for="Items.Price" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Items.Category"></label>
+                    <select asp-for="Items.Category" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a User</option>
+                        @foreach (var category in Model.Category)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Items.Category" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Items.Owner"></label>
+                    <select asp-for="Items.Owner" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a User</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Username</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Items.Owner" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Items.Status"></label>
+                    <select asp-for="@Model.Items.Status" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Unvailable">Unvailable</option>
+                    </select>
+                    <span asp-validation-for="Items.Status" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml"/>
+    }
+}

@@ -1,0 +1,53 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.LikeCommentManage.CreateLikeModel
+
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-4 mb-4 bg-secondary border border-primary rounded-5">
+        <div class="p-3 mt-4 mb-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Like an Item</h2>
+                <hr />
+                <form method="post">
+                    <!-- Item Selection Dropdown -->
+                    <div class="mb-3">
+                        <label for="itemDropdown" class="form-label">Select an Item:</label>
+                        <select id="itemDropdown" name="SelectedItemId" class="form-control bg-dark text-white border-primary" required>
+                            <option value="">Select an Item</option>
+                            @foreach (var item in Model.ItemsList)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- User Selection Dropdown -->
+                    <div class="mb-3">
+                        <label for="userDropdown" class="form-label">Select a User:</label>
+                        <select id="userDropdown" name="SelectedUserId" class="form-control bg-dark text-white border-primary" required>
+                            <option value="">Select a User</option>
+                            @foreach (var user in Model.UsersList)
+                            {
+                                <option value="@user.Id">@user.Username</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Like Button -->
+                    <div class="mb-3">
+                        <button type="submit" asp-page-handler="Like" class="btn btn-primary mx-2">Like</button>
+                        <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back to List</a>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

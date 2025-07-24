@@ -1,0 +1,96 @@
+﻿
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const updateBtn = document.getElementById('updateBtn');
+    const form = document.getElementById('updateForm');
+
+    if (updateBtn && form) {
+        updateBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: "Don't save"
+            }).then((result) => {
+                    if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Saved!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500 // 1.5 seconds
+                    }).then(() => {
+                        form.submit();
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                }
+            });
+        });
+    }
+</script>
+
+
+@if (TempData["AddSuccess"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Added Successfully!',
+            text: '@TempData["AddSuccess"]',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
+}
+@if (TempData["EditSuccess"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Update Complete',
+            text: '@TempData["EditSuccess"]',
+            confirmButtonText: 'Okay'
+        });
+    </script>
+}
+@if (TempData["DeleteSuccess"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Deleted!',
+            text: '@TempData["DeleteSuccess"]',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '@TempData["SuccessMessage"]',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong!',
+            text: '@TempData["ErrorMessage"]',
+            confirmButtonText: 'Try Again'
+        });
+    </script>
+}

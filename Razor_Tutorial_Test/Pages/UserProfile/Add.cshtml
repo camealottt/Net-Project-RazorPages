@@ -1,0 +1,76 @@
+﻿@page
+@model AddModel
+@{
+    ViewData["Title"] = "Add Item";
+}
+
+<div class="page-section bg-dark text-primary">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5" style="max-width: 900px;">
+        <h5 class="text-primary mt-4">📌 Upload Item Instructions</h5>
+        <ol class="mt-2">
+            <li><strong>Fill in all item details accurately:</strong> <p class="text-white">Provide a clear name, description, category, and set the reference price.</p></li>
+            <li><strong>Price is only a reference:</strong> <p class="text-white">Other users may propose trades using their items or offer different price combinations. Make sure your item’s price is reasonable for fair exchange.</p></li>
+            <li><strong>Upload item images separately:</strong> <p class="text-white">Once the item is created, you can upload images through the <strong>"Edit Item"</strong> section below. Add high-quality images to attract more interest.</p></li>
+            <li><strong>Status management:</strong> <p class="text-white">Use the <em>Available</em> or <em>Unavailable</em> status to control the visibility of your item.</p></li>
+            <li><strong>Trade responsibly:</strong> <p class="text-white">Make sure to communicate clearly with potential buyers or traders through the chat feature before finalizing any deal.</p></li>
+        </ol>
+    </div>
+
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5" style="max-width: 900px;">
+        <div class="p-3 mt-4 mb-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Add New Item</h2>
+                <hr />
+            </div>
+
+            <form method="post" asp-page-handler="Create">
+                <div class="mb-3">
+                    <label asp-for="Item.Name"></label>
+                    <input asp-for="Item.Name" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Item Name Here..." />
+                    <span asp-validation-for="Item.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Description"></label>
+                    <textarea asp-for="Item.Description" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Item Description Here..."></textarea>
+                    <span asp-validation-for="Item.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Price"></label>
+                    <input asp-for="Item.Price" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Offer Price Here..." />
+                    <span asp-validation-for="Item.Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Category"></label>
+                    <select asp-for="Item.Category" class="form-control bg-dark text-white border-primary">
+                        <option disabled selected>Select a Category</option>
+                        @foreach (var category in Model.Category)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Item.Category" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Status"></label>
+                    <select asp-for="Item.Status" class="form-control bg-dark text-white border-primary">
+                        <option disabled selected>Select Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                    <span asp-validation-for="Item.Status" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

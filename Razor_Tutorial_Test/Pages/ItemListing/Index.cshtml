@@ -1,0 +1,205 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.ItemListing.IndexModel
+@{
+    var items = Model.ItemList;
+    var categories = Model.Categories;
+    var sessionUserId = HttpContext.Session.GetInt32("UserID");
+
+}
+
+<section class="page-section bg-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 bg-secondary border border-primary text-primary rounded-5 mb-4 mt-4" style="min-height:600px;">
+                <h2 class="page-section-heading text-center text-uppercase text-primary mt-4 mb-4">Discover Items</h2>
+
+                <!-- Filters -->
+                <form method="get" class="row g-2 mb-4">
+                    <div class="col-md-6">
+                        <input type="text" name="Search" value="@Model.Search" class="form-control border-primary bg-dark text-white" placeholder="Search item name..." />
+                    </div>
+                    <div class="col-md-4">
+                        <select name="SelectedCategoryId" class="form-select border-primary bg-dark text-white">
+                            <option value="">Pick Your Category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                if (Model.SelectedCategoryId == category.Id)
+                                {
+                                    <option value="@category.Id" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex gap-2">
+                        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+                        <a href="/ItemListing/Index" class="btn btn-outline-dark w-100">Reset</a>
+                    </div>
+
+                </form>
+
+                <!-- Items -->
+                <div class="row">
+                    @foreach (var item in items)
+                    {
+                        <!-- Item Card -->
+                        <div class="col-12 col-md-6 mb-4">
+                            <!-- smaller column for more square layout -->
+                            <div class="card h-100 shadow-sm bg-dark border border-primary text-white">
+                                <img class="card-img-top" src="@(item.FirstImageUrl ?? "/itemimages/no-image.png")" alt="Item Image" style="object-fit: cover; height: 150px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                </div>
+                                <div class="card-footer d-flex align-items-center">
+                                    <!-- Left side: Profile Picture and Username as link -->
+                                    <a asp-page="/ItemListing/Profile" asp-route-id="@item.OwnerId" class="d-flex align-items-center text-decoration-none text-muted">
+                                        <img src="@(string.IsNullOrWhiteSpace(item.OwnerProfilePicture) ? "/images/default-profile.png" : item.OwnerProfilePicture)"
+                                             class="rounded-circle me-2 border border-primary"
+                                             width="40" height="40" style="object-fit: cover;" />
+                                        <small class="text-muted">@item.OwnerUsername</small>
+                                    </a>
+
+                                    <!-- Right side: Buttons -->
+                                    <div class="ms-auto">
+                                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#itemModal-@item.Id">
+                                            Details
+                                        </button>
+                                        <form method="post" asp-page-handler="ToggleLike" asp-route-itemId="@item.Id" class="d-inline">
+                                            <button class="btn btn-sm @(item.UserLiked ? "btn-danger" : "btn-outline-danger")" type="submit">
+                                                <i class="fas fa-heart"></i> @(item.UserLiked ? "" : "") @item.LikeCount
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="itemModal-@item.Id" tabindex="-1" aria-labelledby="itemModalLabel-@item.Id" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content bg-dark text-primary border-primary">
+                                    <div class="modal-header border-primary">
+                                        <h5 class="modal-title fw-bold">@item.Name</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+
+                                        @* Image Carousel or No Image Message *@
+                                        @if (item.ImageUrls != null && item.ImageUrls.Count > 0)
+                                        {
+                                            <div id="carousel-@item.Id" class="carousel slide mb-4" data-bs-ride="carousel">
+                                                <div class="carousel-inner text-center">
+                                                    @for (int i = 0; i < item.ImageUrls.Count; i++)
+                                                    {
+                                                        var imageUrl = item.ImageUrls[i];
+                                                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                            <img src="@imageUrl"
+                                                                 class="border border-primary rounded"
+                                                                 style="width: 250px; height: 250px; object-fit: contain;"
+                                                                 alt="Item Image" />
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                @if (item.ImageUrls.Count > 1)
+                                                {
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center text-muted border-primary rounded p-4 mb-4 bg-light">
+                                                <i class="fas fa-image fa-2x mb-2"></i>
+                                                <p class="mb-0">This item doesn't have images.</p>
+                                            </div>
+                                        }
+
+
+
+                                        @* Item Details *@
+                                        <p class="mb-0 text-primary"><strong>Description:</strong></p>
+
+                                        <div class="border border-primary rounded p-3 mb-3 bg-secondary bg-opacity-10">
+                                            <p class="mb-0 text-white">@item.Description</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong><span class="text-white">RM @item.Price</span></strong>
+                                            <p class="mb-0 text-white">
+                                                <i class="fas fa-heart text-danger"></i> <strong>@item.LikeCount</strong>
+                                            </p>
+                                        </div>
+
+                                        <hr class="border-primary" />
+
+                                        @* Comments *@
+                                        <h6 class="fw-bold">Comments</h6>
+                                        <div class="text-white">
+                                            @foreach (var comment in item.Comments)
+                                            {
+                                                <div class="d-flex align-items-start mb-3">
+                                                    <img src="@(comment.ProfilePicture ?? "images/default-profile.png")" class="rounded-circle me-2 border border-primary" width="40" height="40" style="object-fit: cover;" />
+                                                    <div>
+                                                        <strong class="text-primary">@comment.Username</strong>
+                                                        <p class="mb-0">@comment.CommentText</p>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if (sessionUserId != null)
+                                            {
+                                                <form method="post" asp-page-handler="AddComment" asp-route-itemId="@item.Id">
+                                                    <div class="mb-3">
+                                                        <textarea name="CommentText" class="form-control bg-secondary text-primary border-light" placeholder="Add a comment..." required></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-outline-light btn-sm">Post Comment</button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-muted">Please login to comment.</p>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer border-primary">
+                                        @if (sessionUserId != null)
+                                        {
+                                            <a class="btn btn-primary" asp-page="/Trade/Add" asp-route-itemId="@item.Id">Trade</a>
+                                        }
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (!items.Any())
+                    {
+                        <div class="text-center text-muted mt-4 mb-4">
+                            <h5>No items found.</h5>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

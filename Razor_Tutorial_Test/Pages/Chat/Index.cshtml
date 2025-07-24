@@ -1,0 +1,125 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.Chat.IndexModel
+@{
+    ViewData["Title"] = "Chat";
+}
+<section class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container bg-dark border border-primary rounded-5">
+        <h2 class="mt-5 mb-5">
+            <img src="@Model.ReceiverProfilePic" class="rounded-circle border border-primary me-2" style="width: 40px; height: 40px; object-fit: cover;" />
+            @Model.ReceiverUsername
+        </h2>
+        @if (Model.ReceiverId != 0)
+        {
+            <div class="border border-primary rounded-5 p-3 d-flex flex-column mb-3 mt-3" style="height: 400px;">
+                <!-- Chat Box -->
+                <div id="chatBox" class="chat-scrollbar flex-grow-1 overflow-auto mb-5 mt-5" style="scroll-behavior: smooth;">
+                    @foreach (var msg in Model.DisplayMessages)
+                    {
+                        <div class="d-flex @(msg.SenderId == Model.SenderId ? "justify-content-end" : "justify-content-start") mb-2">
+                            <div class="d-flex align-items-start" style="max-width: 75%;">
+                                <img src="@msg.ProfilePicUrl" alt="pfp" width="40" height="40" class="rounded-circle border border-primary me-2" />
+                                <div>
+                                    <b>@msg.Username</b> <small class="text-muted">(@msg.FormattedTime)</small><br />
+                                    <span class="text-white">@msg.Message</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+                <!-- Input Row -->
+                <div class="d-flex">
+                    <input type="text" id="messageInput" class="form-control text-white bg-dark border-primary me-2" placeholder="Type your message..." />
+                    <button class="btn btn-outline-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</section>
+
+@section Scripts {
+    @if (Model.ReceiverId != 0)
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+        <script>
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chathub")
+                .build();
+
+            const receiverId = "@Model.ReceiverId";
+            const senderId = "@Model.SenderId";
+
+            connection.on("ReceiveMessage", function (msg) {
+                const box = document.getElementById("chatBox");
+
+                const isSender = msg.senderId == senderId;
+                const wrapper = document.createElement("div");
+                wrapper.className = `d-flex ${isSender ? "justify-content-end" : "justify-content-start"} mb-2`;
+
+                const time = new Date();
+                const timeString = time.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                wrapper.innerHTML = `
+                    <div class="d-flex align-items-start" style="max-width: 75%;">
+                        <img src="${msg.profilePicUrl}" alt="pfp" width="40" height="40" class="rounded-circle border border-primary me-2" />
+                        <div>
+                            <b>${msg.username}</b> <small class="text-muted">(${timeString})</small><br />
+                            <span>${msg.message}</span>
+                        </div>
+                    </div>
+                `;
+
+                box.appendChild(wrapper);
+                box.scrollTop = box.scrollHeight;
+            });
+
+
+
+            connection.start().then(function () {
+                console.log("Connected to chat hub");
+            });
+
+            function sendMessage() {
+                const message = document.getElementById("messageInput").value;
+                if (message.trim() !== "") {
+                    connection.invoke("SendMessage", senderId, receiverId, message);
+                    document.getElementById("messageInput").value = "";
+                }
+            }
+        </script>
+
+        <style>
+            .chat-scrollbar::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            .chat-scrollbar::-webkit-scrollbar-track {
+                background: #1c1c1c;
+                border-radius: 5px;
+            }
+
+            .chat-scrollbar::-webkit-scrollbar-thumb {
+                background-color: black;
+                border-radius: 5px;
+                border: 2px solid #1c1c1c;
+            }
+
+                .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background-color: black;
+                }
+
+            /* Optional: support Firefox */
+            .chat-scrollbar {
+                scrollbar-color: black #1c1c1c;
+                scrollbar-width: thin;
+            }
+        </style>
+    }
+}

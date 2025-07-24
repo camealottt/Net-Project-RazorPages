@@ -1,0 +1,174 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.UserProfile.EditModel
+@{
+}
+<div class="page-section bg-dark text-primary">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <form id="updateForm" method="post" enctype="multipart/form-data">
+            <input hidden asp-for="Accounts.Id" />
+            <div class="p-3 mt-4 mb-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">Edit User Profile</h2>
+                    <hr />
+                </div>
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.Username"><strong>Username</strong></label>
+                    <input asp-for="Accounts.Username" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Username Here..." />
+                    <span asp-validation-for="Accounts.Username" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.Email"><strong>Email</strong></label>
+                    <input asp-for="Accounts.Email" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Email Here..." />
+                    <span asp-validation-for="Accounts.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.PasswordHash"><strong>Password</strong></label>
+                    <input asp-for="Accounts.PasswordHash" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Password Here..." />
+                    <span asp-validation-for="Accounts.PasswordHash" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.Bio"><strong>Bio</strong></label>
+                    <textarea asp-for="Accounts.Bio" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Bio Here..." rows="4"></textarea>
+                    <span asp-validation-for="Accounts.Bio" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3" hidden>
+                    <label asp-for="Accounts.Type"><strong>Type</strong></label>
+                    <input asp-for="Accounts.Type" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Accounts.ProfilePicture))
+                {
+                                            <label><strong>Current Profile Picture</strong></label>
+
+                    <br />
+
+                    <div class="mb-3 d-flex justify-content-center">
+                        <img src="@Model.Accounts.ProfilePicture" alt="Profile Picture" width="150" height="150" class="figure-img mt-4 border border-primary rounded-5 " />
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label><strong>Upload New Profile Picture</strong></label>
+                    <input type="file" id="imageInput" class="form-control custom-file-input" accept="image/*" onclick="OpenMyModal()" />
+                    <input type="hidden" asp-for="CroppedImage" id="croppedImageInput" />
+                    <span asp-validation-for="CroppedImage" class="text-danger"></span>
+                </div>
+
+                <button id="updateBtn" type="submit" class="btn btn-outline-primary" style="width:150px;">Update</button>
+                <a asp-page="Index" class="btn btn-outline-dark" style="width:150px;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Crop Image Modal -->
+<div class="modal fade" id="CroppedImageModal" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="min-height:1000px;">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center pb-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="text-secondary text-uppercase mb-0">Image Preview</h2>
+                            <div class="mt-3">
+                                <img id="imagePreview" style="max-width: 100%; display: none;" />
+                            </div>
+                            <br />
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <button type="button" id="cropButton" class="btn btn-primary" onclick="CloseMyModal()" style="display: none;">Crop Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let cropper;
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const cropButton = document.getElementById('cropButton');
+        const croppedImageInput = document.getElementById('croppedImageInput');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        autoCropArea: 1
+                    });
+
+                    cropButton.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        cropButton.addEventListener('click', function () {
+            const croppedCanvas = cropper.getCroppedCanvas({ width: 300, height: 300 });
+            if (croppedCanvas) {
+                croppedImageInput.value = croppedCanvas.toDataURL("image/png");
+                cropButton.style.display = 'none';
+            }
+        });
+
+        function OpenMyModal() {
+            const modal = new bootstrap.Modal(document.getElementById('CroppedImageModal'));
+            modal.show();
+        }
+
+        function CloseMyModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('CroppedImageModal'));
+            if (modal) modal.hide();
+        }
+    </script>
+
+    <style>
+        .custom-file-input {
+            background-color: #212529; /* dark bg */
+            color: #fff;
+            border: 1px solid #1abc9c; /* Bootstrap primary border */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+            .custom-file-input::file-selector-button {
+                background-color: #1abc9c; /* Bootstrap primary */
+                color: #fff;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 4px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+
+                .custom-file-input::file-selector-button:hover {
+                    background-color: black /* Bootstrap primary hover */
+                }
+
+    </style>
+}

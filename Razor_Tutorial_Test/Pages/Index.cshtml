@@ -1,0 +1,400 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    var username = HttpContext.Session.GetString("Username");
+    var type = HttpContext.Session.GetString("Type");
+}
+
+<!-- Common Hero Section -->
+<div class="page-section bg-dark text-primary">
+    <div class="bg-gradient-primary-to-secondary py-5">
+        <div class="container px-4">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-4 fw-bold text-white mb-3">Connect, Trade, and Discover</h1>
+                        <p class="lead text-white-75 mb-4">Your community marketplace for sustainable second-hand trading</p>
+                        @if (string.IsNullOrEmpty(type))
+                        {
+                            <div class="d-grid gap-3 d-sm-flex">
+                                <a asp-page="/Session/Register" class="btn btn-primary btn-lg rounded-pill px-5 py-3 me-sm-3 fw-bold">
+                                    <i class="bi bi-person-plus-fill me-2"></i>Join Now
+                                </a>
+                                <a asp-page="/Session/Login" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User Dashboard -->
+    @if (type == "User")
+    {
+        <div class="container py-5">
+            <!-- Welcome Banner -->
+            <div class="card bg-primary bg-opacity-10 border-0 rounded-4 shadow-sm mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="fw-bold mb-2">Welcome back, @username!</h3>
+                            <p class="mb-0 text-muted">Ready to explore new trades and connect with the community?</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <form asp-page-handler="Logout" method="post">
+                                <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Cards -->
+            <h2 class="text-center fw-bold mb-4">Your Dashboard</h2>
+            <div class="row g-4">
+                <!-- Card 1: My Profile -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/UserProfile/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-person-badge"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">My Profile</h5>
+                                <p class="text-muted mb-0">Update your info and showcase yourself to the community</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card 2: Chat -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/Chat/UserList" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Messages</h5>
+                                <p class="text-muted mb-0">Connect with users to discuss trades and offers</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">Chat Now <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card 3: Discover -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/ItemListing/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-search-heart"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Discover</h5>
+                                <p class="text-muted mb-0">Find trending items and follow interesting users</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">Explore <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card 4: My Trades -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/Trade/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-cart"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">My Trades</h5>
+                                <p class="text-muted mb-0">Manage your active trades and incoming offers</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">View Trades <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card 5: Post Item -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/UserProfile/Add" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Post an Item</h5>
+                                <p class="text-muted mb-0">Share your unused items with the community</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">Post Now <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Card 6: Trade History -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/Trade/History" class="text-decoration-none">
+                        <div class="card h-100 bg-primary bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-clock-history"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Trade History</h5>
+                                <p class="text-muted mb-0">Review your past transactions and trades</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-primary rounded-pill px-3">View History <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Admin Dashboard -->
+    @if (type == "Admin")
+    {
+        <div class="container py-5">
+            <!-- Admin Welcome Banner -->
+            <div class="card bg-info bg-opacity-10 border-0 rounded-4 shadow-sm mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="fw-bold mb-2">Admin Dashboard</h3>
+                            <p class="mb-0 text-muted">Welcome back, @username! Manage platform operations and monitor activity.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <form asp-page-handler="Logout" method="post">
+                                <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Feature Cards -->
+            <h2 class="text-center text-info fw-bold mb-4">Administration Tools</h2>
+            <div class="row g-4">
+                <!-- Admin Card 1: Manage Accounts -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/AccountManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">User Accounts</h5>
+                                <p class="text-muted mb-0">Manage user profiles and access permissions</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Admin Card 2: Manage Categories -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/CategoriesManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-tags"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Categories</h5>
+                                <p class="text-muted mb-0">Organize items with structured navigation</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Admin Card 3: Manage Followers -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/FollowUnfollowManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-person-heart"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Followers</h5>
+                                <p class="text-muted mb-0">Monitor user relationships and connections</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Admin Card 4: Manage Items -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/ItemManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Items</h5>
+                                <p class="text-muted mb-0">Review and manage marketplace listings</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Admin Card 5: Manage Engagement -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/LikeCommentManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-chat-square-heart"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Engagement</h5>
+                                <p class="text-muted mb-0">Monitor likes, comments and user activity</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Admin Card 6: Manage Orders -->
+                <div class="col-md-6 col-lg-4">
+                    <a asp-page="/OrderManage/Index" class="text-decoration-none">
+                        <div class="card h-100 bg-info bg-opacity-10 border-1 shadow-sm rounded-4 transition-hover text-info">
+                            <div class="card-body p-4 text-center">
+                                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info fs-2 rounded-3 mb-3">
+                                    <i class="bi bi-bag-check"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Orders</h5>
+                                <p class="text-muted mb-0">Track transactions and order statuses</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 text-center">
+                                <span class="btn btn-sm btn-info rounded-pill px-3">Manage <i class="bi bi-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Visitor View -->
+    @if (string.IsNullOrEmpty(type) || (type != "User" && type != "Admin"))
+    {
+        <div class="container py-5">
+            <!-- Featured Items Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3">Discover Amazing Items</h2>
+                    <p class="lead text-muted mb-4">Browse our selection of unique second-hand items from our community. Create an account to unlock all features including posting your own items and messaging sellers.</p>
+                    <a asp-page="/ItemListing/Index" class="btn btn-lg btn-primary rounded-pill px-5">
+                        <i class="bi bi-search me-2"></i>Start Exploring
+                    </a>
+                </div>
+            </div>
+            <hr/>
+            <!-- Features Section -->
+            <div class="row g-4 py-5">
+                <div class="col-12 text-center mb-3">
+                    <h2 class="fw-bold">Why Join Our Community?</h2>
+                    <p class="lead text-muted">Discover the benefits of our sustainable marketplace</p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-center px-3">
+                        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-1 rounded-circle mb-3" style="height: 80px; width: 80px;">
+                            <i class="bi bi-recycle"></i>
+                        </div>
+                        <h5 class="fw-bold">Sustainable Trading</h5>
+                        <p class="text-muted">Give items a second life and reduce waste through our eco-friendly platform</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-center px-3">
+                        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-1 rounded-circle mb-3" style="height: 80px; width: 80px;">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h5 class="fw-bold">Community Focused</h5>
+                        <p class="text-muted">Connect with like-minded people who share your values and interests</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="text-center px-3">
+                        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-1 rounded-circle mb-3" style="height: 80px; width: 80px;">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5 class="fw-bold">Secure Trading</h5>
+                        <p class="text-muted">Our platform ensures safe and transparent transactions between users</p>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <!-- Call to Action -->
+            <div class="text-center py-5">
+                <h3 class="fw-bold mb-4">Ready to join our growing community?</h3>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a asp-page="/Session/Register" class="btn btn-primary btn-lg rounded-pill px-5 py-3 me-sm-3 fw-bold">
+                        <i class="bi bi-person-plus-fill me-2"></i>Register Now
+                    </a>
+                    <a asp-page="/Session/Login" class="btn btn-outline-primary btn-lg rounded-pill px-5 py-3 fw-bold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Custom CSS for transitions and effects -->
+<style>
+    .bg-gradient-primary-to-secondary {
+        background: linear-gradient(135deg, var(--bs-primary) 0%, #4361ee 100%);
+    }
+
+    .text-white-75 {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .transition-hover {
+        transition: all 0.3s ease;
+    }
+
+        .transition-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    .feature-icon-small {
+        height: 3rem;
+        width: 3rem;
+    }
+</style>

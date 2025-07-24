@@ -1,0 +1,217 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Razor_Tutorial_Test
+build_property.RootNamespace = Razor_Tutorial_Test
+build_property.ProjectDir = C:\Users\weilu\source\repos\Razor_Tutorial_Test\Razor_Tutorial_Test\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\weilu\source\repos\Razor_Tutorial_Test\Razor_Tutorial_Test
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/AccountManage/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudE1hbmFnZVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/AccountManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudE1hbmFnZVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/AccountManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudE1hbmFnZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/AccountManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudE1hbmFnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/CategoriesManage/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllc01hbmFnZVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/CategoriesManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllc01hbmFnZVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/CategoriesManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllc01hbmFnZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/CategoriesManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllc01hbmFnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Chat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Chat/UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxVc2VyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/FollowUnfollowManage/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9sbG93VW5mb2xsb3dNYW5hZ2VcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/FollowUnfollowManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9sbG93VW5mb2xsb3dNYW5hZ2VcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/FollowUnfollowManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9sbG93VW5mb2xsb3dNYW5hZ2VcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/FollowUnfollowManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9sbG93VW5mb2xsb3dNYW5hZ2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemListing/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbUxpc3RpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemListing/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbUxpc3RpbmdcUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemManage/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbU1hbmFnZVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbU1hbmFnZVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbU1hbmFnZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/ItemManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXRlbU1hbmFnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/LikeCommentManage/CreateComment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlrZUNvbW1lbnRNYW5hZ2VcQ3JlYXRlQ29tbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/LikeCommentManage/CreateLike.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlrZUNvbW1lbnRNYW5hZ2VcQ3JlYXRlTGlrZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/LikeCommentManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlrZUNvbW1lbnRNYW5hZ2VcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/LikeCommentManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlrZUNvbW1lbnRNYW5hZ2VcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/LikeCommentManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlrZUNvbW1lbnRNYW5hZ2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/NotificationAlert/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90aWZpY2F0aW9uQWxlcnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/OrderManage/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJNYW5hZ2VcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/OrderManage/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJNYW5hZ2VcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/OrderManage/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJNYW5hZ2VcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/OrderManage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJNYW5hZ2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Session/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vzc2lvblxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Session/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vzc2lvblxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Trade/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhZGVcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Trade/History.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhZGVcSGlzdG9yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Trade/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhZGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Trade/ItemDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhZGVcSXRlbURldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/UserProfile/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclByb2ZpbGVcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/UserProfile/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclByb2ZpbGVcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/UserProfile/EditItem.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclByb2ZpbGVcRWRpdEl0ZW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/UserProfile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclByb2ZpbGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weilu/source/repos/Razor_Tutorial_Test/Razor_Tutorial_Test/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-mj3g5q7nc7

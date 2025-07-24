@@ -1,0 +1,377 @@
+﻿@page "{id:int}"
+@model Razor_Tutorial_Test.Pages.ItemListing.ProfileModel
+@{
+    var user = Model.UserProfile;
+    var items = Model.UserItems;
+    var itemImages = Model.ItemImages;
+    var categories = Model.Categories;
+    var itemss = Model.UserItemsDisplay;
+    var sessionUserId = HttpContext.Session.GetInt32("UserID");
+}
+
+<section class="page-section bg-dark">
+    <div class="container mt-lg-5 mb-lg-5 bg-secondary text-white border border-primary mt-4 rounded rouded-4">
+        <div class="row mt-5 mb-5">
+            <!-- Profile Picture -->
+            <div class="col-md-3 text-center">
+                <img src="@(string.IsNullOrWhiteSpace(user.ProfilePicture) ? "/images/default-profile.png" : user.ProfilePicture)"
+                     alt="Profile Picture"
+                     class="rounded-circle img-fluid border border-primary" 
+                     style="width: 200px; height: 200px; object-fit: cover;" />
+            </div>
+
+            <!-- User Info -->
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4><strong>@user.Username</strong></h4>
+                    <form method="post" asp-page-handler="Follow" asp-route-id="@user.Id">
+                        <button type="submit" class="btn btn-outline-primary">
+                            @(Model.IsFollowing ? "Unfollow" : "Follow")
+                        </button>
+                    </form>
+
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-4">
+                        <div class="border p-2"><strong>Total Item:</strong> @items.Count()</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border p-2"><strong>Total Follower:</strong> @Model.TotalFollowers</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border p-2"><strong>Total Following:</strong> @Model.TotalFollowing</div>
+                    </div>
+                </div>
+
+                <div class="border p-3 mt-2">
+                    <strong>Bio:</strong>
+                    <p class="mb-0">@user.Bio</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container h-100 bg-secondary text-white border border-primary mt-4 rounded rouded-4" style="position: relative;">
+        <!-- Add Item Button -->
+        <div class="container mt-4 d-flex justify-content-between align-items-center">
+            <h4>Your Items</h4>
+            <button class="btn btn-primary" onclick="showSection('available-section')">Available</button>
+            <button class="btn btn-warning text-white" onclick="showSection('traded-section')">Traded</button>
+            <button class="btn btn-danger" onclick="showSection('unavailable-section')">Unavailable</button>
+        </div>
+        <hr class="border-light" />
+        <!-- Item List -->
+        <div class="container mt-4">
+            @if (items != null && items.Any())
+            {
+                <section id="available-section" class="container mt-4">
+                    @{
+                        var availableItems = items.Where(i => i.Status != null && i.Status.Equals("Available", StringComparison.OrdinalIgnoreCase)).ToList();
+                    }
+                    @if (!availableItems.Any())
+                    {
+                        <div class="d-flex justify-content-center align-items-center mb-4 mt-4" style="min-height: 200px;">
+                            <p class="text-muted">No available items to display.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var item in availableItems)
+                            {
+                                var images = itemImages.Where(i => i.ItemId == item.Id).ToList();
+                                var firstImage = images.FirstOrDefault()?.ImageUrl ?? "/itemimages/no-image.png";
+                                var modalId = $"modalItem{item.Id}";
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 bg-dark text-white border border-primary" style="position: relative;">
+                                        <img src="@firstImage" class="card-img-top" style="max-height: 250px; object-fit: cover;" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.Name</h5>
+                                            <p class="card-text"><small class="text-muted">@item.CreatedAt.ToString("g")</small></p>
+                                            <button type="button" class="btn btn-outline-light mt-2" data-bs-toggle="modal" data-bs-target="#@modalId">View Details</button>
+                                        </div>
+
+                                        <!-- Status Bar Positioned Bottom Right -->
+                                        <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                                            <span class="badge bg-success">Available <i class="bi bi-check-circle"></i></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}Label")" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="@($"{modalId}Label")">@item.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (images.Any())
+                                                {
+                                                    <div id="carousel-@item.Id" class="carousel slide mb-3" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for (int i = 0; i < images.Count; i++)
+                                                            {
+                                                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                                    <img src="@images[i].ImageUrl" class="d-block w-100" style="max-height: 400px; object-fit: contain;" />
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        @if (images.Count > 1)
+                                                        {
+                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="text-center mb-3">
+                                                        <img src="/itemimages/no-image.png" class="img-fluid" style="max-height: 400px; object-fit: contain;" />
+                                                        <div class="alert alert-warning mt-2">No image to display for this item.</div>
+                                                    </div>
+                                                }
+
+                                                <p><strong>Description:</strong> @item.Description</p>
+                                                @{
+                                                    var categoryName = categories.FirstOrDefault(c => c.Id == item.Category)?.Name ?? "Unknown";
+                                                }
+                                                <p><strong>Category:</strong> @categoryName</p>
+                                                <p><strong>Price:</strong> RM @item.Price.ToString("F2")</p>
+                                                <p><strong>Created At:</strong> @item.CreatedAt.ToString("f")</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </section>
+
+                <section id="traded-section" class="container mt-4" style="display: none;">
+                    @{
+                        var tradedItems = items.Where(i => i.Status != null && i.Status.Equals("Traded", StringComparison.OrdinalIgnoreCase)).ToList();
+                    }
+                    @if (!tradedItems.Any())
+                    {
+                        <div class="d-flex justify-content-center align-items-center mb-4 mt-4" style="min-height: 200px;">
+                            <p class="text-muted">No traded items to display.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var item in items.Where(i => i.Status != null && i.Status.Equals("Traded", StringComparison.OrdinalIgnoreCase)))
+                            {
+                                var images = itemImages.Where(i => i.ItemId == item.Id).ToList();
+                                var firstImage = images.FirstOrDefault()?.ImageUrl ?? "/itemimages/no-image.png";
+                                var modalId = $"modalItem{item.Id}";
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 bg-dark text-white border border-primary" style="position: relative;">
+                                        <img src="@firstImage" class="card-img-top" style="max-height: 250px; object-fit: cover;" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.Name</h5>
+                                            <p class="card-text"><small class="text-muted">@item.CreatedAt.ToString("g")</small></p>
+                                            <button type="button" class="btn btn-outline-light mt-2" data-bs-toggle="modal" data-bs-target="#@modalId">View Details</button>
+                                        </div>
+
+                                        <!-- Status Bar Positioned Bottom Right -->
+                                        <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                                            <span class="badge bg-warning text-dark">Traded <i class="bi bi-arrow-left-right"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}Label")" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="@($"{modalId}Label")">@item.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (images.Any())
+                                                {
+                                                    <div id="carousel-@item.Id" class="carousel slide mb-3" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for (int i = 0; i < images.Count; i++)
+                                                            {
+                                                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                                    <img src="@images[i].ImageUrl" class="d-block w-100" style="max-height: 400px; object-fit: contain;" />
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        @if (images.Count > 1)
+                                                        {
+                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="text-center mb-3">
+                                                        <img src="/itemimages/no-image.png" class="img-fluid" style="max-height: 400px; object-fit: contain;" />
+                                                        <div class="alert alert-warning mt-2">No image to display for this item.</div>
+                                                    </div>
+                                                }
+
+                                                <p><strong>Description:</strong> @item.Description</p>
+                                                @{
+                                                    var categoryName = categories.FirstOrDefault(c => c.Id == item.Category)?.Name ?? "Unknown";
+                                                }
+                                                <p><strong>Category:</strong> @categoryName</p>
+                                                <p><strong>Price:</strong> RM @item.Price.ToString("F2")</p>
+                                                <p><strong>Created At:</strong> @item.CreatedAt.ToString("f")</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </section>
+                <section id="unavailable-section" class="container mt-4" style="display: none;">
+                    @{
+                        var unavailableItems = items.Where(i => string.IsNullOrEmpty(i.Status) || i.Status.Equals("Unavailable", StringComparison.OrdinalIgnoreCase)).ToList();
+                    }
+                    @if (!unavailableItems.Any())
+                    {
+                        <div class="d-flex justify-content-center align-items-center mb-4 mt-4" style="min-height: 200px;">
+                            <p class="text-muted">No unavailable items to display.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var item in items.Where(i => string.IsNullOrEmpty(i.Status) || i.Status.Equals("Unavailable", StringComparison.OrdinalIgnoreCase)))
+                            {
+                                var images = itemImages.Where(i => i.ItemId == item.Id).ToList();
+                                var firstImage = images.FirstOrDefault()?.ImageUrl ?? "/itemimages/no-image.png";
+                                var modalId = $"modalItem{item.Id}";
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 bg-dark text-white border border-primary" style="position: relative;">
+                                        <img src="@firstImage" class="card-img-top" style="max-height: 250px; object-fit: cover;" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.Name</h5>
+                                            <p class="card-text"><small class="text-muted">@item.CreatedAt.ToString("g")</small></p>
+                                            <button type="button" class="btn btn-outline-light mt-2" data-bs-toggle="modal" data-bs-target="#@modalId">View Details</button>
+                                        </div>
+
+                                        <!-- Status Bar Positioned Bottom Right -->
+                                        <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                                            <span class="badge bg-danger">Unavailable <i class="bi bi-x-circle"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}Label")" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="@($"{modalId}Label")">@item.Name</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (images.Any())
+                                                {
+                                                    <div id="carousel-@item.Id" class="carousel slide mb-3" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for (int i = 0; i < images.Count; i++)
+                                                            {
+                                                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                                    <img src="@images[i].ImageUrl" class="d-block w-100" style="max-height: 400px; object-fit: contain;" />
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        @if (images.Count > 1)
+                                                        {
+                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-@item.Id" data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="text-center mb-3">
+                                                        <img src="/itemimages/no-image.png" class="img-fluid" style="max-height: 400px; object-fit: contain;" />
+                                                        <div class="alert alert-warning mt-2">No image to display for this item.</div>
+                                                    </div>
+                                                }
+
+                                                <p><strong>Description:</strong> @item.Description</p>
+                                                @{
+                                                    var categoryName = categories.FirstOrDefault(c => c.Id == item.Category)?.Name ?? "Unknown";
+                                                }
+                                                <p><strong>Category:</strong> @categoryName</p>
+                                                <p><strong>Price:</strong> RM @item.Price.ToString("F2")</p>
+                                                <p><strong>Created At:</strong> @item.CreatedAt.ToString("f")</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </section>
+
+
+
+
+            }
+            else
+            {
+                <div class="card h-100 bg-dark mt-4 mb-4">
+                    <div class="text-center my-5 ">
+                        <h4 class="text-muted">No items to display.</h4>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('available-section').style.display = 'none';
+            document.getElementById('traded-section').style.display = 'none';
+            document.getElementById('unavailable-section').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Default to showing available items
+        document.addEventListener("DOMContentLoaded", function () {
+            showSection('available-section');
+        });
+    </script>
+}

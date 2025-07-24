@@ -1,0 +1,55 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.FollowUnfollowManage.CreateModel
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <form method="post">
+            <div class="p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">
+                        Follow & Unfollow Users
+                    </h2>
+                    <hr/>
+                </div>
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3" >
+                    <label>Select Follower (AUser):</label>
+                    <select asp-for="AUserId" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Choose a User</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Username</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Select User to Follow (BUser):</label>
+                    <select asp-for="BUserId" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Choose a User</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Username</option>
+                        }
+                    </select>
+                </div>                
+                <div class="row">
+                    <!-- Follow Button -->
+                    <div class="col-md-6">
+                        <button type="submit" asp-page-handler="Follow" class="btn btn-outline-success">Follow</button>
+                    </div>
+                    <!-- Unfollow Button -->
+                    <div class="col-md-6">
+                        <button type="submit" asp-page-handler="Unfollow" class="btn btn-outline-danger">Unfollow</button>
+                    </div>
+                </div>
+                <br/>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml"/>
+    }
+}

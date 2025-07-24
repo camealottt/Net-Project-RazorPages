@@ -1,0 +1,229 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.ItemManage.EditModel
+
+<div class="page-section bg-dark text-primary">
+    <div class="container bg-secondary border border-primary rounded-5 mb-5 mt-5">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Edit Item</h2>
+                <hr />
+            </div>
+            <div class="row pb-2">
+                <h4 class="text-secondary">Item Images</h4>
+            </div>
+            <div class="row">
+                @if (Model.ItemImages != null && Model.ItemImages.Any())
+                {
+                    @foreach (var image in Model.ItemImages)
+                    {
+                        <div class="col-md-3 mb-2 position-relative">
+                            <img src="@image.ImageUrl" class="figure-img border border-primary rounded-5" style="width: 100%; height: auto;" />
+
+                            <!-- Delete Form (Separate from Edit Form) -->
+                            <form method="post" asp-page-handler="DeleteImage" class="delete-form" style="position: absolute; top: 5px; right: 5px;">
+                                <input type="hidden" name="imageId" value="@image.Id" />
+                                <input type="hidden" name="itemId" value="@Model.Item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm delete-btn">X</button>
+                            </form>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <!-- Display message when there are no images -->
+                    <div class="text-muted mt-3">
+                        <p>No images available. Please upload your item image.</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Add Image Button -->
+            <button type="button" style="width:150px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addImageModal">
+                Add Images
+            </button>
+            <hr />
+            <form id="updateForm" method="post" asp-page-handler="Edit">
+                <input hidden asp-for="Item.Id" />
+                <div class="mb-3">
+                    <label asp-for="Item.Name"></label>
+                    <input asp-for="Item.Name" class="form-control bg-dark text-white border-primary" />
+                    <span asp-validation-for="Item.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Description"></label>
+                    <textarea asp-for="Item.Description" class="form-control bg-dark text-white border-primary"></textarea>
+                    <span asp-validation-for="Item.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Price"></label>
+                    <input asp-for="Item.Price" class="form-control bg-dark text-white border-primary" />
+                    <span asp-validation-for="Item.Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Category"></label>
+                    <select asp-for="Item.Category" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a Category</option>
+                        @foreach (var category in Model.Category)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Item.Category" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Owner"></label>
+                    <select asp-for="Item.Owner" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a User</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Username</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Item.Owner" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Status"></label>
+                    <select asp-for="Item.Status" class="form-control bg-dark text-white border-primary">
+                        <option value="" disabled selected>Select a Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                    <span asp-validation-for="Item.Status" class="text-danger"></span>
+                </div>
+
+                <button id="updateBtn" type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back to List</a>
+            </form>
+        </div>
+
+
+
+        <!-- Upload Image Modal -->
+        <div class="modal fade" id="addImageModal" tabindex="-1" aria-labelledby="addImageModalLabel" aria-hidden="true" >
+            <div class="modal-dialog modal-xl" >
+                <div class="modal-content" style="min-height: 700px;">
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="text-secondary text-uppercase mb-0">Image Preview</h2>
+
+                                    <!-- FORM for Upload -->
+                                    <form method="post" enctype="multipart/form-data" asp-page-handler="UploadCroppedImage" id="uploadForm">
+                                        <br />
+                                        <!-- File Input -->
+                                        <input type="file" id="imageInput" class="form-control" accept="image/*" />
+
+                                        <!-- Image Preview -->
+                                        <div class="mt-3 text-center">
+                                            <img id="imagePreview" style="max-width: 100%; display: none;" />
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                            <!-- Crop Button -->
+                                            <button type="submit" id="cropButton" class="btn btn-primary mt-3" style="display: none;">
+                                                Crop & Upload
+                                            </button>
+
+                                            <!-- Hidden Field for Cropped Image -->
+                                            <input type="hidden" name="croppedImage" id="croppedImageInput" />
+                                            <input type="hidden" name="itemId" value="@Model.Item.Id" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const form = button.closest('.delete-form');
+
+                Swal.fire({
+                    title: "Do you want to delete this image?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    denyButtonText: "Don't Delete"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            form.submit();
+                        });
+                    } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+            let cropper;
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const cropButton = document.getElementById('cropButton');
+        const croppedImageInput = document.getElementById('croppedImageInput');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+
+                    // Destroy previous cropper instance if exists
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    // Initialize Cropper.js with a square aspect ratio
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        autoCropArea: 1,
+                    });
+
+                    cropButton.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        cropButton.addEventListener('click', function () {
+            const croppedCanvas = cropper.getCroppedCanvas({ width: 300, height: 300 });
+
+            if (croppedCanvas) {
+                croppedImageInput.value = croppedCanvas.toDataURL("image/png");
+
+                // Since button is already type="submit", the form will submit automatically
+            }
+        });
+
+    </script>
+}

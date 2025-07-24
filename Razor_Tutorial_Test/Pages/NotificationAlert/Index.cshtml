@@ -1,0 +1,43 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.NotificationAlert.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="page-section bg-dark">
+    <div class="container mt-5 mb-5 bg-secondary text-primary border border-primary rounded-5" style="min-height:500px;">
+        <div class="container mt-5">
+            <h2 class="text-primary">Your Notifications</h2>
+            <hr />
+            @if (Model.UserNotifications.Count == 0)
+            {
+                <div class="alert container-fluid bg-dark mt-4 mb-4">You have no notifications.</div>
+            }
+            else
+            {
+                <ul class="list-group">
+                    @foreach (var note in Model.UserNotifications)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            <div>
+                                <span>@note.Message</span><br />
+                                <small class="text-muted">@note.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                            </div>
+                            <div class="d-flex">
+                                <form method="post" asp-page-handler="DisableUnread" asp-route-id="@note.Id" class="me-2">
+                                    <button type="submit" class="btn btn-sm btn-success" title="Mark as Read">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </form>
+
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@note.Id">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete Notification">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@page "{id:int}"
+@model Razor_Tutorial_Test.Pages.LikeCommentManage.EditModel
+<div class="page-section bg-dark text-primary">
+    <div class="container bg-secondary border border-primary rounded-5 mb-5 mt-5">
+        <h4 class="mb-4 mt-4">Statistics</h4>
+        <hr />
+        <p><strong>Total Likes:</strong> @Model.TotalLikes</p>
+        <p><strong>Total Comments:</strong> @Model.TotalComments</p>
+
+        <h4>Like Records</h4>
+        <table class="table table-bordered border-primary text-primary" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Liked At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var like in Model.LikeList)
+                {
+                    <tr>
+                        <td>@like.Username</td>
+                        <td>@like.LikedAt</td>
+                        <td>
+                            <form method="post" asp-page-handler="DeleteLike">
+                                <input type="hidden" name="likeId" value="@like.LikeId" />
+                                <input type="hidden" name="itemId" value="@Model.ItemId" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr/>
+        <h4 class="mb-4 mt-4">Comment Records</h4>
+        <table class="table table-bordered border-primary text-primary" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Comment</th>
+                    <th>Commented At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var comment in Model.CommentList)
+                {
+                    <tr>
+                        <td>@comment.Username</td>
+                        <td>@comment.Content</td>
+                        <td>@comment.CommentedAt</td>
+                        <td>
+                            <form method="post" asp-page-handler="DeleteComment">
+                                <input type="hidden" name="commentId" value="@comment.CommentId" />
+                                <input type="hidden" name="itemId" value="@Model.ItemId" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-page="Index" class="btn btn-dark mb-4">Back to List</a>
+    </div>
+</div>
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

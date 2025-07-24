@@ -1,0 +1,63 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.FollowUnfollowManage.EditModel
+
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container bg-secondary border border-primary rounded-5 mb-5 mt-5">
+        <h2 class="page-section-heading text-center text-uppercase text-primary mb-5 mt-5">Follower List</h2>        
+        @if (Model.Followers.Count > 0)
+        {
+            <table class="table table-bordered border-primary text-primary mb-5 mt-5" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Follower Username</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var follower in Model.Followers)
+                    {
+                        <tr>
+                            <td>@follower.Username</td>
+                            <td>
+                                <form method="post" asp-page-handler="RemoveFollower" onsubmit="return confirmRemove(this);">
+                                    <input type="hidden" name="followerId" value="@follower.Id" />
+                                    <input type="hidden" name="userId" value="@Model.User.Id" />
+                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-bordered border-primary text-primary mb-5 mt-5" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Follower Username</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><p><em>No followers found.</em></p></td>
+                        <td>
+                            <p><em>None</em></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <div class="container" style="text-align:center;">
+            <a asp-page="Index" class="btn btn-dark mb-5" style="width:150px;">Back</a>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

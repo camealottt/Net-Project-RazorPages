@@ -1,0 +1,53 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.LikeCommentManage.CreateCommentModel
+
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <div class="p-3 mt-4 mb-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Add a Comment</h2>
+                <hr />
+
+                <form method="post">
+                    <!-- Item Selection Dropdown -->
+                    <div class="mb-3">
+                        <label for="itemDropdown" class="form-label">Select an Item:</label>
+                        <select id="itemDropdown" name="SelectedItemId" class="form-control bg-dark text-white border-primary" required>
+                            <option value="">Select an Item</option>
+                            @foreach (var item in Model.ItemsList)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Comments Section -->
+                    <div class="mb-3">
+                        <label for="userDropdown" class="form-label">Select a User:</label>
+                        <select id="userDropdown" name="SelectedUserId" class="form-control bg-dark text-white border-primary" required>
+                            <option value="">Select a User</option>
+                            @foreach (var user in Model.UsersList)
+                            {
+                                <option value="@user.Id">@user.Username</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Content" class="form-label">Comment:</label>
+                        <textarea name="Content" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Comment Here..."  required></textarea>
+                    </div>
+                    <button type="submit" asp-page-handler="Comment" class="btn btn-primary mx-2">Add Comment</button>
+                    <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back to List</a>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

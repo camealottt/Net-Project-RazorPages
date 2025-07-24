@@ -1,0 +1,175 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.AccountManage.EditModel
+
+<div class="page-section bg-dark text-primary">
+    <div class="container bg-secondary border border-primary rounded-5 mb-5 mt-5">
+        <form id="updateForm" method="post" enctype="multipart/form-data">
+            <!-- Add enctype for file upload -->
+            <input hidden asp-for="Accounts.Id" />
+            <div class="p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">Edit User</h2>
+                    <hr />
+                </div>
+                <div asp-validation-summary="All"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.Username"></label>
+                    <input asp-for="Accounts.Username" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Username Here..." />
+                    <span asp-validation-for="Accounts.Username" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.Email"></label>
+                    <input asp-for="Accounts.Email" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Email Here..." />
+                    <span asp-validation-for="Accounts.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.PasswordHash"></label>
+                    <input asp-for="Accounts.PasswordHash" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Password Here..." />
+                    <span asp-validation-for="Accounts.PasswordHash" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Accounts.Type"></label>
+                    <select asp-for="Accounts.Type" class="form-control bg-dark text-white border-primary">
+                        <option value="">Select Type</option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <span asp-validation-for="Accounts.Type" class="text-danger"></span>
+                </div>
+                <!-- Display Current Profile Picture -->
+                @if (!string.IsNullOrEmpty(Model.Accounts.ProfilePicture))
+                {
+                    <div class="mb-3">
+                        <label>Current Profile Picture</label>
+                        <div>
+                            <img src="@Model.Accounts.ProfilePicture" alt="Profile Picture" width="150" height="150" class="figure-img border border-primary rounded-5" />
+                        </div>
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label>Upload New Profile Picture</label><br/>
+                    <input type="file" id="imageInput" class="custom-file-input" accept="image/*" onclick="OpenMyModal()" />
+                    <!-- Hidden field to store cropped image -->
+                    <input type="hidden" asp-for="CroppedImage" id="croppedImageInput" />
+                </div>
+
+
+                <button id="updateBtn" type="submit" class="btn btn-outline-primary" style="width:150px;">Update</button>
+                <a asp-page="Index" class="btn btn-outline-dark" style="width:150px;">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="CroppedImageModal" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="min-height: 700px;">
+            <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+            <div class="modal-body text-center pb-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="text-secondary text-uppercase mb-0">Image Preview</h2>
+                            <div class="mt-3">
+                                <img id="imagePreview" style="max-width: 100%; display: none;" />
+                            </div>
+                            <br />
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <button type="button" id="cropButton" class="btn btn-primary" onclick="CloseMyModal()" style="display: none;">Crop Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let cropper;
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const cropButton = document.getElementById('cropButton');
+        const croppedImageInput = document.getElementById('croppedImageInput');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+
+                    // Destroy previous cropper instance if exists
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    // Initialize Cropper.js with a square aspect ratio
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        autoCropArea: 1,
+                    });
+
+                    cropButton.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        cropButton.addEventListener('click', function () {
+            const croppedCanvas = cropper.getCroppedCanvas({ width: 300, height: 300 });
+
+            if (croppedCanvas) {
+                croppedImageInput.value = croppedCanvas.toDataURL("image/png");
+
+                // Hide Crop Button After Cropping
+                cropButton.style.display = 'none';               
+            }
+        });
+
+        function OpenMyModal() {
+            const modalElement = document.getElementById('CroppedImageModal');
+            const modalInstance = new bootstrap.Modal(modalElement);
+            modalInstance.show();
+        }
+
+        function CloseMyModal() {
+            const modalElement = document.getElementById('CroppedImageModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        }
+    </script>
+    <style>
+        .custom-file-input {
+            background-color: #212529; /* dark bg */
+            color: #fff;
+            border: 1px solid #1abc9c; /* Bootstrap primary border */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+            .custom-file-input::file-selector-button {
+                background-color: #1abc9c; /* Bootstrap primary */
+                color: #fff;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 4px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+
+                .custom-file-input::file-selector-button:hover {
+                    background-color: black /* Bootstrap primary hover */
+                }
+
+    </style>
+}

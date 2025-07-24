@@ -1,0 +1,36 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.LikeCommentManage.DeleteModel
+
+
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <form method="post">
+            <input hidden asp-for="Items.Id" />
+            <div class="p-3 mt-4 mb-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">
+                        Delete Item
+                    </h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Items.Name"></label>
+                    <input asp-for="@Model.Items.Name" disabled class="form-control bg-dark text-white border-primary" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Items.Description"></label>
+                    <input asp-for="@Model.Items.Description" disabled class="form-control bg-dark text-white border-primary" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:150px;">Delete</button>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

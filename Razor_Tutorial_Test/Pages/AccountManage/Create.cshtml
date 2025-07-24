@@ -1,0 +1,50 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.AccountManage.CreateModel
+<div class="page-section bg-dark text-primary">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <form method="post">
+            <div class="p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">
+                        Create User
+                    </h2>
+                    <hr/>
+                </div>
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3" >
+                    <label asp-for="Accounts.Username"></label>
+                    <input asp-for="@Model.Accounts.Username" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Username Here..." />
+                    <span asp-validation-for="Accounts.Username" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Accounts.Email"></label>
+                    <input asp-for="@Model.Accounts.Email" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Email Here..." />
+                    <span asp-validation-for="Accounts.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Accounts.PasswordHash"></label>
+                    <input asp-for="@Model.Accounts.PasswordHash" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Password Here..." />
+                    <span asp-validation-for="Accounts.PasswordHash" class="text-danger"></span>
+                </div>   
+                <div class="mb-3">
+                    <label asp-for="Accounts.Type"></label>
+                    <select asp-for="@Model.Accounts.Type" class="form-control bg-dark text-white border-primary">
+                        <option value="">Select Type</option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <span asp-validation-for="Accounts.Type" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-outline-primary" style="width:150px;">Create</button>
+                <a asp-page="Index" class="btn btn-outline-dark" style="width:150px;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml"/>
+    }
+}

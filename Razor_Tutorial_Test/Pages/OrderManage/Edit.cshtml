@@ -1,0 +1,150 @@
+﻿@page
+@model EditModel
+@{
+    ViewData["Title"] = "Edit Order";
+}
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <div class="p-3 mt-4 mb-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Edit Order</h2>
+                <hr />
+            </div>
+
+
+            <form id="updateForm" method="post">
+                <input type="hidden" asp-for="OrderRecord.Id" />
+
+                <div class="row">
+                    <!-- Buyer Section -->
+                    <div class="col-md-6">
+                        <h4>Buyer</h4>
+                        <div class="border border-primary p-3 mt-4">
+                            <div id="buyerCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @if (Model.BuyerItemImages != null && Model.BuyerItemImages.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.BuyerItemImages.Count; i++)
+                                        {
+                                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                <img src="@Model.BuyerItemImages[i].ImageUrl" class="d-block w-50 text-center mx-auto" alt="Buyer Image" />
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="carousel-item active">
+                                            <img src="/itemimages/no-image.png" class="d-block w-50 text-center mx-auto" alt="Default Buyer Image" />
+                                        </div>
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#buyerCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#buyerCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="mb-2">
+                            <label><strong>Item Name:</strong></label>
+                            <h3 class="text-white"><strong>@Model.BuyerItem?.Name</strong></h3>
+                        </div>
+                        <div class="mb-2">
+                            <label>Buyer User ID</label>
+                            <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.BuyerUserID" readonly />
+                        </div>
+                        <div class="mb-2">
+                            <label>Offered Item ID</label>
+                            <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.OfferedItemID" readonly />
+                        </div>
+                    </div>
+
+                    <!-- Seller Section -->
+                    <div class="col-md-6">
+                        <h4>Seller</h4>
+                        <div class="border border-primary p-3 mt-4">
+                            <div id="sellerCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @if (Model.SellerItemImages != null && Model.SellerItemImages.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.SellerItemImages.Count; i++)
+                                        {
+                                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                <img src="@Model.SellerItemImages[i].ImageUrl" class="d-block w-50 mx-auto" alt="Seller Image" />
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="carousel-item active">
+                                            <img src="/itemimages/no-image.png" class="d-block w-50 mx-auto" alt="Default Seller Image" />
+                                        </div>
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#sellerCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#sellerCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="mb-2">
+                            <label><strong>Item Name:</strong></label>
+                            <h3 class="text-white"><strong>@Model.SellerItem?.Name</strong></h3>
+                        </div>
+                        <div class="mb-2">
+                            <label>Seller User ID</label>
+                            <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.SellerUserID" readonly />
+                        </div>
+
+
+
+                        <div class="mb-2">
+                            <label>Requested Item ID</label>
+                            <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.RequestedItemID" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Order Details -->
+                <div class="mb-3">
+                    <label>Money Offered</label>
+                    <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.MoneyOffered" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label>Created At</label>
+                    <input class="form-control bg-dark text-white border-primary" value="@Model.OrderRecord.CreatedAt.ToString("yyyy-MM-dd HH:mm")" readonly />
+                </div>
+
+
+
+
+
+                <div class="mb-3">
+                    <label>Order Status</label>
+                    <select asp-for="OrderRecord.OrderStatus" class="form-control bg-dark text-white border-primary">
+                        <option value="Pending">Pending</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <button id="updateBtn" type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+                <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

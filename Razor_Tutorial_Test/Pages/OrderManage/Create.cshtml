@@ -1,0 +1,78 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.OrderManage.CreateModel
+
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container mt-5 mb-5 bg-secondary border border-primary rounded-5">
+        <div class="p-3 mb-5 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">
+                    Create Order
+                </h2>
+                <hr />
+            </div>
+            <div asp-validation-summary="All"></div>
+            <form method="get">
+                <div class="mb-3">
+                    <label>Buyer</label>
+                    <select name="buyerId" class="form-control bg-dark text-white border-primary" onchange="this.form.submit()">
+                        <option value="">Select Buyer</option>
+                        @foreach (var user in Model.UserList)
+                        {
+                            <option value="@user.Value" selected="@(user.Value == ViewContext.HttpContext.Request.Query["buyerId"])">@user.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Seller</label>
+                    <select name="sellerId" class="form-control bg-dark text-white border-primary" onchange="this.form.submit()">
+                        <option value="">Select Seller</option>
+                        @foreach (var user in Model.UserList)
+                        {
+                            <option value="@user.Value" selected="@(user.Value == ViewContext.HttpContext.Request.Query["sellerId"])">@user.Text</option>
+                        }
+                    </select>
+                </div>
+            </form>
+            @if (Model.ShowForm)
+            {
+                <form method="post">
+                    <input type="hidden" asp-for="OrderRecord.BuyerUserID" />
+                    <input type="hidden" asp-for="OrderRecord.SellerUserID" />
+
+                    <div class="mb-3">
+                        <label>Offered Item</label>
+                        <select asp-for="OrderRecord.OfferedItemID" class="form-control bg-dark text-white border-primary">
+                            <option value="">Select Item</option>
+                            @foreach (var item in Model.OfferedItems)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Requested Item</label>
+                        <select asp-for="OrderRecord.RequestedItemID" class="form-control bg-dark text-white border-primary">
+                            <option value="">Select Item</option>
+                            @foreach (var item in Model.RequestedItems)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Money Offered</label>
+                        <input asp-for="OrderRecord.MoneyOffered" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Offer Amount Here..." />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+                    <a asp-page="Index" class="btn btn-dark" style="width:150px;">Back</a>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

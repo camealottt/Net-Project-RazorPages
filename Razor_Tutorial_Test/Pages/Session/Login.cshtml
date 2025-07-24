@@ -1,0 +1,39 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.Session.LoginModel
+<div class="page-section bg-dark" style="min-height:800px;">
+    <div class="container mt-5 mb-5 bg-secondary text-primary border border-primary rounded-5">
+        
+        <form method="post">
+            <div class="p-3 mt-4 mb-4 rounded-3">
+                    <h2 class="text-primary">
+                        Login
+                    </h2>
+                    <hr />
+                <div class="alert alert-warning mt-4 text-center">
+                    <strong>Don't have an account?</strong>
+                    <a asp-page="/Session/Register" class="text-decoration-underline text-primary fw-bold">Create your account here</a>.
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Accounts.Username"></label>
+                    <input asp-for="Accounts.Username" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Username Here..." />
+                    <span asp-validation-for="Accounts.Username" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Accounts.PasswordHash">Password</label>
+                    <input asp-for="Accounts.PasswordHash" class="form-control bg-dark text-white border-primary" placeholder="Insert Your Password Here..." type="password" />
+                    <span asp-validation-for="Accounts.PasswordHash" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:150px;">Login</button>
+                <a asp-page="/Index" class="btn btn-dark" style="width:150px;">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}

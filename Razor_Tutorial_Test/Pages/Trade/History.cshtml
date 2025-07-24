@@ -1,0 +1,123 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.Trade.HistoryModel
+@{
+    ViewData["Title"] = "My Trade";
+}
+<section class="page-section bg-dark text-primary" style="min-height:780px;">
+    <!-- Toggle Section -->
+    <div class="container mt-4 mb-4 mt-md-5 mb-md-5 text-center bg-secondary border border-primary rounded-5 mx-auto" style="max-width: 300px;">
+        <h3 class="mt-3">Order History</h3>
+        <div class="btn-group mt-3 mb-3 w-100" role="group" aria-label="Offer Sections">
+            <button type="button" class="btn btn-primary" id="offerByMeBtn">Offer By Me</button>
+            <button type="button" class="btn btn-dark" id="offerToMeBtn">Offer To Me</button>
+        </div>
+    </div>
+
+    <!-- Offer By Me Section -->
+    <div class="container mt-4 mb-4 mt-md-5 mb-md-5 bg-secondary border border-primary rounded-5" id="offerByMeSection" style="min-height:auto;">
+        <h2 class="mb-3 mt-3 mb-md-4 mt-md-4 text-center text-primary">Offered By Me</h2>
+
+        @if (!Model.OrdersByBuyer.Any())
+        {
+            <div class="text-center text-muted mt-4 pb-4">
+                <p>No offers have been made by you yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                @foreach (var order in Model.OrdersByBuyer)
+                {
+                    <div class="col mb-3 mt-3 position-relative">
+                        <div class="card h-100 shadow-sm text-center bg-dark border-primary position-relative">
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="text-success fw-bold" style="border: 2px solid #28a745; padding: 2px 8px; border-radius: 5px; background-color: #1e1e1e; font-size: 0.85rem;">
+                                    @order.OrderStatus
+                                </span>
+                            </div>
+                            <img src="@order.RequestedItemImageUrl" class="card-img-top" alt="Item Image" style="object-fit: cover; height: 100px;" />
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@order.RequestedItemName</h5>
+                                <p class="card-text text-muted mb-1">Requested: @order.OfferedItemName</p>
+                                <p class="card-text mb-1">To: @order.BuyerUsername</p>
+                                <p class="card-text"><small>@order.CreatedAtFormatted</small></p>
+                                <div class="mt-auto">
+                                    <a class="btn btn-outline-primary w-100"
+                                       asp-page="ItemDetails"
+                                       asp-route-id="@order.OrderId"
+                                       asp-route-from="History">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Offer To Me Section -->
+    <div class="container mt-4 mb-4 mt-md-5 mb-md-5 bg-secondary border border-primary rounded-5" id="offerToMeSection" style="display:none; min-height:auto;">
+        <h2 class="mb-3 mt-3 mb-md-4 mt-md-4 text-center text-primary">Offered To Me</h2>
+
+        @if (!Model.OrdersToSeller.Any())
+        {
+            <div class="text-center text-muted mt-4 pb-4">
+                <p>No offers have been made to you yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                @foreach (var order in Model.OrdersToSeller)
+                {
+                    <div class="col mb-3 mt-3 position-relative">
+                        <div class="card h-100 shadow-sm text-center bg-dark border-primary position-relative">
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="text-success fw-bold" style="border: 2px solid #28a745; padding: 2px 8px; border-radius: 5px; background-color: #1e1e1e; font-size: 0.85rem;">
+                                    @order.OrderStatus
+                                </span>
+                            </div>
+                            <img src="@order.OfferedItemImageUrl" class="card-img-top" alt="Item Image" style="object-fit: cover; height: 100px;" />
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@order.OfferedItemName</h5>
+                                <p class="card-text text-muted mb-1">Requested: @order.RequestedItemName</p>
+                                <p class="card-text mb-1">To: @order.SellerUsername</p>
+                                <p class="card-text"><small>@order.CreatedAtFormatted</small></p>
+                                <div class="mt-auto">
+                                    <a class="btn btn-outline-primary w-100"
+                                       asp-page="ItemDetails"
+                                       asp-route-id="@order.OrderId"
+                                       asp-route-from="History">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+
+    <script>
+        document.getElementById("offerByMeBtn").addEventListener("click", function () {
+            document.getElementById("offerByMeSection").style.display = "block";
+            document.getElementById("offerToMeSection").style.display = "none";
+            this.classList.add("btn-primary");
+            this.classList.remove("btn-dark");
+            document.getElementById("offerToMeBtn").classList.add("btn-dark");
+            document.getElementById("offerToMeBtn").classList.remove("btn-primary");
+        });
+
+        document.getElementById("offerToMeBtn").addEventListener("click", function () {
+            document.getElementById("offerByMeSection").style.display = "none";
+            document.getElementById("offerToMeSection").style.display = "block";
+            this.classList.add("btn-primary");
+            this.classList.remove("btn-dark");
+            document.getElementById("offerByMeBtn").classList.add("btn-dark");
+            document.getElementById("offerByMeBtn").classList.remove("btn-primary");
+        });
+    </script>
+}

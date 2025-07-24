@@ -1,0 +1,38 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.Chat.UserListModel
+@{
+    ViewData["Title"] = "Select User to Chat";
+}
+<section class="page-section bg-dark text-primary" style="min-height:780px">
+    <div class="container my-3 bg-secondary border border-primary rounded-4">
+        <h4 class="py-3 text-center text-primary">Chat With Other Users</h4>
+
+        <!-- Responsive grid with tighter spacing -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+            @foreach (var user in Model.AllUsers)
+            {
+                <div class="col mb-2">
+                    <div class="card h-100 shadow-sm text-center bg-dark border-primary rounded-3">
+                        <div class="card-body py-2">
+                            <!-- Profile picture with reduced size -->
+                            <img src="@(string.IsNullOrEmpty(user.ProfilePicture) ? "/images/default-profile.png" : user.ProfilePicture)"
+                                 class="rounded-circle mx-auto mb-2 border border-primary"
+                                 alt="@user.Username"
+                                 style="width: 70px; height: 70px; object-fit: cover;" />
+
+                            <!-- User details with reduced spacing -->
+                            <h6 class="card-title mb-1">@user.Username</h6>
+                            <p class="card-text text-muted small mb-2">ID: @user.Id</p>
+                            <a class="btn btn-outline-primary btn-sm" asp-page="/Chat/Index" asp-route-receiverId="@user.Id">
+                                Chat <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Add some bottom spacing -->
+        <div class="pb-3"></div>
+    </div>
+</section>

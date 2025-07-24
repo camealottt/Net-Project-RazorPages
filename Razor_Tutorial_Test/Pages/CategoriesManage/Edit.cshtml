@@ -1,0 +1,38 @@
+﻿@page
+@model Razor_Tutorial_Test.Pages.CategoriesManage.EditModel
+<div class="page-section bg-dark text-primary" style="min-height:780px;">
+    <div class="container bg-secondary border border-primary rounded-5 mb-5 mt-5">
+        <form id="updateForm" method="post">
+            <input hidden asp-for="Category.Id" />
+            <div class="p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">
+                        Edit Category
+                    </h2>
+                    <hr/>
+                </div>
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3" >
+                    <label asp-for="Category.Name"></label>
+                    <input asp-for="@Model.Category.Name" class="form-control bg-dark text-white border-primary" />
+                    <span asp-validation-for="Category.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Category.Description"></label>
+                    <textarea asp-for="@Model.Category.Description" rows="3" class="form-control bg-dark text-white border-primary"></textarea>
+                    <span asp-validation-for="Category.Description" class="text-danger"></span>
+                </div>
+                <button id="updateBtn" type="submit" class="btn btn-outline-primary" style="width:150px;">Update</button>
+                <a asp-page="Index" class="btn btn-outline-dark" style="width:150px;">Back</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml"/>
+    }
+}
